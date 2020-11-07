@@ -31,4 +31,8 @@ public class HelloGrpcServer {
         server.shutdown();
         logger.warning("completed shutdown server");
     }
+
+    public boolean isTerminated() {
+        return server.isTerminated();
+    }
 }
