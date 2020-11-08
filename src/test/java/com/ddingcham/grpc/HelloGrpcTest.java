@@ -56,6 +56,16 @@ class HelloGrpcTest {
          */
     }
 
+    @Test
+    void shutdown_gRpcServer_before_respond() {
+//        TODO
+    }
+
+    @Test
+    void client_side_cancelling() {
+//        TODO
+    }
+
     @AfterEach
     void shutDown() throws InterruptedException {
         server.shutdown();
