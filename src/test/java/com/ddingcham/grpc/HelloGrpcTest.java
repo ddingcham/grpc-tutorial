@@ -42,10 +42,18 @@ class HelloGrpcTest {
 
     //    TODO : currently just run server (make assertion after adding client)
     @Test
-    void simple_asyncStub() throws InterruptedException {
+    void multiple_asyncStub_request_with_reused_channel() throws InterruptedException {
         HelloGrpcClient client = new HelloGrpcClient(testGrpcChannel.asyncStub);
-        client.sendAsyncUnary("simple_asyncStub");
-        Thread.sleep(3_000L);
+        client.sendAsyncUnary("simple_asyncStub_1");
+        client.sendAsyncUnary("simple_asyncStub_2");
+        client.sendAsyncUnary("simple_asyncStub_3");
+        client.sendAsyncUnary("simple_asyncStub_4");
+        Thread.sleep(3_000L); // not 8s -> seems executed by thread-pool
+        /*
+            actual log : sleep (1s) -> onNext * 4 -> sleep (1s) -> onCompleted * 4
+                ????? ( sleep (1s) -> onNext -> sleep (1s) -> onCompleted ) * 4
+            see : server side unaryHello Thread : grpc-default-executor-n (request scope ?)
+         */
     }
 
     @AfterEach

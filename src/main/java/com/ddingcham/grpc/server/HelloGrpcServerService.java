@@ -5,6 +5,7 @@ import com.ddingcham.grpc.hello.HelloRequest;
 import com.ddingcham.grpc.hello.HelloResponse;
 
 import io.grpc.stub.StreamObserver;
+import org.apache.commons.lang3.ThreadUtils;
 
 import java.util.logging.Logger;
 
@@ -32,6 +33,7 @@ public class HelloGrpcServerService extends HelloDdingchamGrpc.HelloDdingchamImp
     @Override
     public void unaryHello(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
         logger.info("request : " + request);
+        logger.info("server side unaryHello Thread : " + Thread.currentThread().getName());
         doBusiness(1_000L);
         responseObserver.onNext(HelloResponse.newBuilder()
                                              .setWelcomeMessage("hello ddingcham")
