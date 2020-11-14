@@ -32,7 +32,8 @@ public class HelloGrpcClient {
 
                                  @Override
                                  public void onError(Throwable t) {
-                                     t.fillInStackTrace();
+                                     logger.warning("onError");
+                                     t.printStackTrace();
                                  }
 
                                  @Override

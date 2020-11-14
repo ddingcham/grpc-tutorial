@@ -57,13 +57,19 @@ class HelloGrpcTest {
     }
 
     @Test
-    void shutdown_gRpcServer_before_respond() {
-//        TODO
+    void exceed_stub_deadline() throws InterruptedException {
+        HelloGrpcClient client = new HelloGrpcClient(
+                testGrpcChannel.asyncStub.withDeadlineAfter(500, TimeUnit.MILLISECONDS));
+        client.sendAsyncUnary("simple_asyncStub");
+        Thread.sleep(3_000L);
     }
 
     @Test
-    void client_side_cancelling() {
-//        TODO
+    void shutdown_server_before_respond() throws InterruptedException {
+        HelloGrpcClient client = new HelloGrpcClient(testGrpcChannel.asyncStub);
+        client.sendAsyncUnary("simple_asyncStub");
+        shutDown();
+        Thread.sleep(3_000L);
     }
 
     @AfterEach
